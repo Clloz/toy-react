@@ -1,7 +1,7 @@
 /*
  * @Author: Clloz
  * @Date: 2020-09-06 20:45:45
- * @LastEditTime: 2020-09-07 10:23:35
+ * @LastEditTime: 2020-09-07 15:10:07
  * @LastEditors: Clloz
  * @Description: toy-react.js
  * @FilePath: /toy-react/toy-react.js
@@ -75,5 +75,6 @@ export function createElement(type, attributes, ...children) {
 }
 
 export function render(component, parentElement) {
+    console.log(component.root);
     parentElement.appendChild(component.root);
 }

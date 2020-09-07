@@ -1,14 +1,14 @@
 /*
  * @Author: Clloz
  * @Date: 2020-09-06 14:46:16
- * @LastEditTime: 2020-09-07 13:26:51
+ * @LastEditTime: 2020-09-07 20:31:45
  * @LastEditors: Clloz
  * @Description:
  * @FilePath: /toy-react/main.js
  * @博观而约取，厚积而薄发，日拱一卒，日进一寸，学不可以已。
  */
 
-// import { createElement, Component, render } from './toy-react';
+//import { createElement, Component, render } from './toy-react';
 function createElement(type, attributes, ...children) {
     // console.log(type, children);
     let el;
@@ -84,7 +84,11 @@ render(
 );
 
 function render(component, parentElement) {
-    console.log(component.template);
+    // console.log(component.template);
+    parentElement.appendChild(component.template);
+    parentElement.appendChild(component.template);
+    parentElement.appendChild(component.template);
+    parentElement.appendChild(component.template);
     parentElement.appendChild(component.template);
     // console.log(typeof component.template);
 }
