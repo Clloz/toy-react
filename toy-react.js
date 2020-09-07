@@ -5,7 +5,7 @@
  * @LastEditors: Clloz
  * @Description: toy-react.js
  * @FilePath: /toy-react/toy-react.js
- * @博观而约取，厚积而薄发，日拱一卒，日进一寸，学不可以已。
+ * @博观而约取，厚积而薄发，日拱一卒，日进一寸。
  */
 class ElementWrapper {
     constructor(type) {
