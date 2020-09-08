@@ -1,7 +1,7 @@
 /*
  * @Author: Clloz
  * @Date: 2020-09-06 20:45:45
- * @LastEditTime: 2020-09-07 15:10:07
+ * @LastEditTime: 2020-09-08 09:07:06
  * @LastEditors: Clloz
  * @Description: toy-react.js
  * @FilePath: /toy-react/toy-react.js
@@ -39,6 +39,7 @@ export class Component {
     }
     get root() {
         // console.log(this.render());
+        console.log(this);
         if (!this._root) this._root = this.render().root;
         return this._root;
     }
@@ -59,7 +60,7 @@ export function createElement(type, attributes, ...children) {
 
     let insertChildren = children => {
         for (let child of children) {
-            console.log(child, typeof child);
+            // console.log(child, typeof child);
             if (typeof child === 'string') {
                 child = new TextWrapper(child);
             }
@@ -75,6 +76,6 @@ export function createElement(type, attributes, ...children) {
 }
 
 export function render(component, parentElement) {
-    console.log(component.root);
+    console.log(123);
     parentElement.appendChild(component.root);
 }
