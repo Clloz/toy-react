@@ -1,10 +1,10 @@
 /*
  * @Author: Clloz
  * @Date: 2020-09-06 20:45:45
- * @LastEditTime: 2020-09-08 15:41:41
+ * @LastEditTime: 2020-09-08 15:38:09
  * @LastEditors: Clloz
  * @Description: toy-react.js
- * @FilePath: /toy-react/part4/toy-react.js
+ * @FilePath: /toy-react/toy-react.js
  * @博观而约取，厚积而薄发，日拱一卒，日进一寸。
  */
 let RENDER_TO_DOM = Symbol('rander to dom');
@@ -19,7 +19,6 @@ class ElementWrapper {
                 value,
             );
         } else {
-            if (name === 'className') name = 'class';
             this.root.setAttribute(name, value);
         }
     }
@@ -63,15 +62,8 @@ export class Component {
         this.render()[RENDER_TO_DOM](range);
     }
     rerender() {
-        let oldRange = this._range;
-
-        let range = document.createRange();
-        range.setStart(oldRange.startContainer, oldRange.startOffset);
-        range.setEnd(oldRange.startContainer, oldRange.startOffset);
-        this[RENDER_TO_DOM](range);
-
-        oldRange.setStart(range.endContainer, range.endOffset);
-        oldRange.deleteContents();
+        this._range.deleteContents();
+        this[RENDER_TO_DOM](this._range);
     }
     setState(newObj) {
         if (this.state === null || typeof this.state !== 'object') {
@@ -85,7 +77,7 @@ export class Component {
                 if (oldState[p] === null || typeof oldState[p] !== 'object') {
                     oldState[p] = newState[p];
                 } else {
-                    merge(oldState[p], newState[p]);
+                    merge(oldState(p), newState[p]);
                 }
             }
         };
@@ -112,9 +104,6 @@ export function createElement(type, attributes, ...children) {
             // console.log(child, typeof child);
             if (typeof child === 'string') {
                 child = new TextWrapper(child);
-            }
-            if (child === null) {
-                continue;
             }
             if (typeof child === 'object' && Array.isArray(child)) {
                 insertChildren(child);

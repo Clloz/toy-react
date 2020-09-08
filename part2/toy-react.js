@@ -1,10 +1,10 @@
 /*
  * @Author: Clloz
  * @Date: 2020-09-06 20:45:45
- * @LastEditTime: 2020-09-08 15:41:41
+ * @LastEditTime: 2020-09-08 12:44:04
  * @LastEditors: Clloz
  * @Description: toy-react.js
- * @FilePath: /toy-react/part4/toy-react.js
+ * @FilePath: /toy-react/toy-react.js
  * @博观而约取，厚积而薄发，日拱一卒，日进一寸。
  */
 let RENDER_TO_DOM = Symbol('rander to dom');
@@ -13,18 +13,9 @@ class ElementWrapper {
         this.root = document.createElement(type);
     }
     setAttribute(name, value) {
-        if (name.match(/^on([\s\S]+)$/)) {
-            this.root.addEventListener(
-                RegExp.$1.replace(/^[\s\S]/, c => c.toLowerCase()),
-                value,
-            );
-        } else {
-            if (name === 'className') name = 'class';
-            this.root.setAttribute(name, value);
-        }
+        this.root.setAttribute(name, value);
     }
     appendChild(component) {
-        console.log(component);
         let range = document.createRange();
         range.setStart(this.root, this.root.childNodes.length);
         range.setEnd(this.root, this.root.childNodes.length);
@@ -50,7 +41,7 @@ export class Component {
     constructor() {
         this.props = Object.create(null);
         this.children = [];
-        this._range = null;
+        this._root = null;
     }
     setAttribute(name, value) {
         this.props[name] = value;
@@ -59,38 +50,7 @@ export class Component {
         this.children.push(component);
     }
     [RENDER_TO_DOM](range) {
-        this._range = range;
         this.render()[RENDER_TO_DOM](range);
-    }
-    rerender() {
-        let oldRange = this._range;
-
-        let range = document.createRange();
-        range.setStart(oldRange.startContainer, oldRange.startOffset);
-        range.setEnd(oldRange.startContainer, oldRange.startOffset);
-        this[RENDER_TO_DOM](range);
-
-        oldRange.setStart(range.endContainer, range.endOffset);
-        oldRange.deleteContents();
-    }
-    setState(newObj) {
-        if (this.state === null || typeof this.state !== 'object') {
-            this.state = newObj;
-            this.rerender();
-            return;
-        }
-
-        let merge = (oldState, newState) => {
-            for (let p in newState) {
-                if (oldState[p] === null || typeof oldState[p] !== 'object') {
-                    oldState[p] = newState[p];
-                } else {
-                    merge(oldState[p], newState[p]);
-                }
-            }
-        };
-        merge(this.state, newObj);
-        this.rerender();
     }
 }
 
@@ -112,9 +72,6 @@ export function createElement(type, attributes, ...children) {
             // console.log(child, typeof child);
             if (typeof child === 'string') {
                 child = new TextWrapper(child);
-            }
-            if (child === null) {
-                continue;
             }
             if (typeof child === 'object' && Array.isArray(child)) {
                 insertChildren(child);
